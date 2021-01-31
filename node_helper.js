@@ -54,7 +54,7 @@ module.exports = NodeHelper.create({
 					// Get 'delay' or 'nodelay' class objects and parse it as delay of the bus (e.g. +2 minutes)
 					var tripDelay = tripData.find(".delay");
 					if (tripDelay.length > 0){
-						tripObj.delay = tripDelay.text().trim();
+						tripObj.delay = "Fahrt entfällt";
 					}
 					else {
 						tripDelay = tripData.find(".nodelay");

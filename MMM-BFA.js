@@ -126,6 +126,14 @@ Module.register("MMM-BFA", {
 		spnTripDelay.className = "bfaTripColDelay";
 		var delayOptions = ["Halt entfällt", "Fahrt entfällt", "Fahrt fällt aus"];
 		spnTripDelay.classList.add(curTrip.delay > 0 || delayOptions.includes(curTrip.delay) ? "bfaTripHasDelay": "bfaTripHasNoDelay");
+		var dictCanceling = {
+				"Halt entfällt": "Stop canceled",
+				"Fahrt entfällt": "Trip canceled",
+				"Fahrt fällt aus": "Trip canceled"
+				};
+		if (delayOptions.includes(curTrip.delay)) {
+			curTrip.delay = dictCanceling[curTrip.delay]
+		}
 		spnTripDelay.textContent = " (" + curTrip.delay + ")";
 		tdTripDeparture.appendChild(spnTripDelay);
 
