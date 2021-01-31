@@ -1,7 +1,7 @@
 var request = require("request");
 var NodeHelper = require("node_helper");
 var cheerio = require("cheerio");
-var RVVHelper = require("./RVVHelper.js");
+var BFAHelper = require("./BFAHelper.js");
 
 module.exports = NodeHelper.create({
 
@@ -19,9 +19,9 @@ module.exports = NodeHelper.create({
 				// Return on error
 				if (error || (response.statusCode !== 200)) {
 					if (error){
-						RVVHelper.printToConsole("\n" + error, payload.config);
+						BFAHelper.printToConsole("\n" + error, payload.config);
 					} else{
-						RVVHelper.printToConsole("\nResponse Statuscode: " + response.statusCode, payload.config);
+						BFAHelper.printToConsole("\nResponse Statuscode: " + response.statusCode, payload.config);
 					}
 					self.sendSocketNotification("ERR_RETURN_TRIPS", {
 						trips : trips
@@ -41,7 +41,7 @@ module.exports = NodeHelper.create({
 					var tripObj = {direction: "", detailInfo: "", delay: "", departure: "", route: ""};
 					var tripData = $(this);
 
-					RVVHelper.printToConsole("\nTrip #" + trpCnt, payload.config);
+					BFAHelper.printToConsole("\nTrip #" + trpCnt, payload.config);
 					trpCnt++;
 
 					// Set defaults
@@ -60,7 +60,7 @@ module.exports = NodeHelper.create({
 						tripDelay = tripData.find(".nodelay");
 						tripObj.delay = "0";
 					}
-					RVVHelper.printToConsole("Delay: " + tripObj.delay, payload.config);
+					BFAHelper.printToConsole("Delay: " + tripObj.delay, payload.config);
 
 					// If there was no object found, the 'delay' is 0
 					if (tripDelay.length > 0) {
@@ -68,7 +68,7 @@ module.exports = NodeHelper.create({
 					} else {
 						tripObj.departure = tripData.find("span").first().text().trim();
 					}
-					RVVHelper.printToConsole("Departure: " + tripObj.departure, payload.config);
+					BFAHelper.printToConsole("Departure: " + tripObj.departure, payload.config);
 
 					let tdCnt = 0;
 					$(tripData.find("td")).each(function(){
@@ -77,25 +77,25 @@ module.exports = NodeHelper.create({
 							// Direction, e.g. 'Klinikum'
 							if (tdCnt === 3 && $(this).text().trim() != ""){
 								tripObj.direction = $(this).text().trim();
-								RVVHelper.printToConsole("Direction: " + tripObj.direction, payload.config);
+								BFAHelper.printToConsole("Direction: " + tripObj.direction, payload.config);
 							}
 							// Additional information, e.g. 'Bstg. A'
 							if (tdCnt === 4 && $(this).text().trim() != ""){
 								tripObj.detailInfo = $(this).text().trim();
-								RVVHelper.printToConsole("Add. information: " + tripObj.detailInfo, payload.config);
+								BFAHelper.printToConsole("Add. information: " + tripObj.detailInfo, payload.config);
 							}
 						} else {
 							// Route, e.g. '2'
 							if ($(this).find("a").first().text().trim() != ""){
 								tripObj.route = $(this).find("a").first().text().trim();
-								RVVHelper.printToConsole("Route: " + tripObj.route, payload.config);
+								BFAHelper.printToConsole("Route: " + tripObj.route, payload.config);
 							}
 						}
 
 					});
 
 					if (payload.config.stop_to.length === 0) {
-						trips = RVVHelper.addTrip(tripObj, trips, payload.config);
+						trips = BFAHelper.addTrip(tripObj, trips, payload.config);
 					}
 					else {
 						// Iterate over destinations
@@ -103,7 +103,7 @@ module.exports = NodeHelper.create({
 						{
 							if (tripObj.direction === payload.config.stop_to[i])
 							{
-								trips = RVVHelper.addTrip(tripObj, trips, payload.config);
+								trips = BFAHelper.addTrip(tripObj, trips, payload.config);
 							}
 						}
 					}
