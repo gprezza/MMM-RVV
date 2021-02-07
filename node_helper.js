@@ -8,7 +8,7 @@ module.exports = NodeHelper.create({
 	start: function() {
 		console.log("Starting node helper: " + this.name);
 	},
-
+	
 	socketNotificationReceived: function(notification, payload) {
 		var self = this;
 		if (notification === "GET_TRIPS") {
@@ -54,7 +54,7 @@ module.exports = NodeHelper.create({
 					// Get 'delay' or 'nodelay' class objects and parse it as delay of the bus (e.g. +2 minutes)
 					var tripDelay = tripData.find(".delay");
 					if (tripDelay.length > 0){
-						tripObj.delay = "Fahrt entfällt";
+						tripObj.delay = tripDelay.text().trim();
 					}
 					else {
 						tripDelay = tripData.find(".nodelay");

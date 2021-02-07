@@ -19,8 +19,12 @@ Module.register("MMM-BFA", {
 		this.trips = [];
 		this.updateCounter = self.config.updateInterval / 1000;
 		this.getTripsFromBFA();
-
+		
 		self = this;
+		
+		// Use global language:
+		this.config.language = config.language;
+		
 		// Prevent update invertal from loading too often - set it to at least 10s
 		if (self.config.updateInterval < 10 * 1000) {
 			self.config.updateInterval = 10 * 1000;
@@ -131,9 +135,10 @@ Module.register("MMM-BFA", {
 				"Fahrt entfällt": "Trip canceled",
 				"Fahrt fällt aus": "Trip canceled"
 				};
-		if (delayOptions.includes(curTrip.delay)) {
+		
+		if (delayOptions.includes(curTrip.delay) && this.config.language === "en") {
 			curTrip.delay = dictCanceling[curTrip.delay]
-		}
+		};
 		spnTripDelay.textContent = " (" + curTrip.delay + ")";
 		tdTripDeparture.appendChild(spnTripDelay);
 
