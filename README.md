@@ -1,4 +1,4 @@
-# MMM-RVV
+# MMM-BFA
 Departure monitor for the local public transport (ÖPNV) of Bavaria.
 
 The data is fetched from [bayern-fahrplan.de](https://bayern-fahrplan.de "Bayern Fahrplan"), the distributor for public transport data in Bavaria.
@@ -11,12 +11,14 @@ The structure and layout of this MagicMirror module was inspired by [MMM-KVV](ht
 German (1):<p>
 ![German version (1)](res/screenshot_de.png)<p>
 German (2):<p>
-![German version (2)](res/screenshot_de_hbf.png)<p>
+![German version (2)](res/screenshot_de_wue.png)<p>
 English:<p>
-![English version](res/screenshot_en.png)
+![English version (1)](res/screenshot_en.png)<p>
+English (2):<p>
+![English version (2)](res/screenshot_en_wue.png)
 
 ## Languages
-MMM-RVV features language support for `German (de)` and `English (en)` mirrors.
+MMM-BFA features language support for `German (de)` and `English (en)` mirrors.
 
 ## Prerequisite
 A working installation of [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror).
@@ -28,25 +30,27 @@ A working installation of [MagicMirror<sup>2</sup>](https://github.com/MichMich/
   
 ## Installation
 1. Navigate into your MagicMirror's modules folder.
-2. Execute git clone https://github.com/sebikolon/MMM-RVV.git.
-3. Execute cd MMM-RVV.
+2. Execute git clone https://github.com/sebikolon/MMM-BFA.git.
+3. Execute cd MMM-BFA.
 4. Execute `npm install`.
 
 ## Module behavior
 Please note that this module **auto-creates a module header** which displays the text that was defined in the module settings. It is therefore recommended not to add a 'header' entry to your config.js for this module.<P>
-There is a **progress loading bar** displayed that runs from the left to the right side of the module border, indicating when the next data refresh is performed. You can adjust the color of this loading bar in the module config. In order to adjust the look-and-feel more granular, add an override to the CSS identifiers `.MMM-RVV #divReload` and `.MMM-RVV #divReloadWrapper`.<P>
+There is a **progress loading bar** displayed that runs from the left to the right side of the module border, indicating when the next data refresh is performed. You can adjust the color of this loading bar in the module config. In order to adjust the look-and-feel more granular, add an override to the CSS identifiers `.MMM-BFA #divReload` and `.MMM-BFA #divReloadWrapper`.<P>
 The **delay** of an upcoming trip is marked in red color (if there is any), otherwise in green color. If defined, additional trip information like *Trip cancelled* will be shown instead of the delay.<P>
-This module has been programmed to allow for **multiple instances**. Simply add more MMM-RVV config entries to your config.js file to display multiple stations and configure them according to your needs.
+This module has been programmed to allow for **multiple instances**. Simply add more MMM-BFA config entries to your config.js file to display multiple stations and configure them according to your needs.
 
 ## Configuration
-You can show the MMM-RVV module without setting any configuration options.<BR>In this case, the stop `Regensburg University` is set as default *stop_from_ID*.
+You can show the MMM-BFA module without setting any configuration options.<BR>In this case, the stop `Regensburg University` is set as default *stop_from_ID*.
 
-Sample configuration entry for your `~/MagicMirror/config/config.js` with optional parameters:
+Sample configurations entry for your `~/MagicMirror/config/config.js` with optional parameters:
 
+* To show departures of a single trip (**from** a stop **to** another stop):
+
+    ```
     ...
-    
     {
-        module: 'MMM-RVV',
+        module: 'MMM-BFA',
         position: 'bottom_left',
         config: {
             updateInterval :    30 * 1000,
@@ -56,8 +60,25 @@ Sample configuration entry for your `~/MagicMirror/config/config.js` with option
             titleText :         "Universität Regensburg"  
         }
     }       // If this isn't your last module, add a comma after the bracket
-    
     ...
+    ```
+
+* To show all departures from a stop omit the *stop_to* entry:
+
+    ```
+    ...
+    {
+        module: "MMM-BFA",
+        position: "top_right",
+        config: {
+            updateInterval :    30 * 1000,
+            stop_from_ID:       3700440,
+            maximumTripsToShow: 4,
+            titleText :         "Rathaus Würzburg"
+        }
+    }        // If this isn't your last module, add a comma after the bracket7
+    ...
+    ```
 
 ## How to get the correct stopID
 1. Open your web browser and navigate to the [the txt version of bayern-fahrplan.de](https://txt.bayern-fahrplan.de/textversion/bcl_abfahrtstafel).
@@ -76,5 +97,5 @@ Sample configuration entry for your `~/MagicMirror/config/config.js` with option
 | stop_to<BR>`optional`       | []      |<BR>Which directions do you want to include into your trip list?<BR>Put the names of the stops into the array, separated by comma<BR><EM>Default: Show all directions </EM><P> |
 | maximumTripsToShow<BR>`optional`       | 5      |<BR>How many trips to you want to show in total (including all directions)?<BR>This is a maximum value. Probably there are less trips available then desired<P> |
 | logToConsole<BR>`optional`       | false      |<BR>Turn on the log onto the console (for debugging purposes)<BR><P> |
-| progressColor<BR>`optional`       | #6db64b      |<BR> Default color name (or RGB code) of the progress bar<BR><EM>Default: RVV (Regensburger Verkehrsverbund) CI color (light green)</EM><P> |
+| progressColor<BR>`optional`       | #6db64b      |<BR> Default color name (or RGB code) of the progress bar<BR><EM>Default: light green</EM><P> |
 | updateInterval<BR>`optional` | 30 * 1000 | <BR>How often should the trip data be refreshed (in milliseconds)?<BR><EM> Default: Every 30 seconds </EM><P> |
