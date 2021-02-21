@@ -43,7 +43,7 @@ This module has been programmed to allow for **multiple instances**. Simply add 
 ## Configuration
 You can show the MMM-BFA module without setting any configuration options.<BR>In this case, the stop `Regensburg University` is set as default *stop_from_ID*.
 
-Sample configurations entry for your `~/MagicMirror/config/config.js` with optional parameters:
+Sample configuration entries for your `~/MagicMirror/config/config.js` with optional parameters:
 
 * To show departures of a single trip (**from** a stop **to** another stop):
 
